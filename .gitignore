@@ -1,0 +1,8 @@
+/node_modules
+/dist
+.env
+dist.zip
+.DS_Store
+/coverage
+/db
+npm-debug.log
