@@ -5,10 +5,11 @@ import { checkForExpctedError, StreamErrors } from "../errors";
 export async function createNewStream(
     dataStore: DataStore,
     title: string,
-    description: string
+    description: string,
+    thumbnail: string,
 ): Promise<void> {  
     try {
-        const updates: Stream = { title, description };
+        const updates: Stream = { title, description, thumbnail };
         await dataStore.createStream(updates);
     } catch(error) {
         const isExpectedError = checkForExpctedError(error);

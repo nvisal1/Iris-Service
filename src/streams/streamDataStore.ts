@@ -31,7 +31,7 @@ export default class CouchbaseDriver implements DataStore {
             // const bucket = this.cluster.openBucket('streams');
             // let query = N1qlQuery.fromString('CREATE PRIMARY INDEX ON `streams`');
             // bucket.query(query);
-            const query = N1qlQuery.fromString('SELECT meta(streams).id, title, description, streamKey FROM `streams`');
+            const query = N1qlQuery.fromString('SELECT meta(streams).id, title, description, streamKey, thumbnail FROM `streams`');
             const result = await this.bucket.query(query);
             if (result === null) {
                 return Promise.reject(new Error(StreamErrors.RESOURCE_NOT_FOUND));

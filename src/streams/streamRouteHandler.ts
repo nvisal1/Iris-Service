@@ -15,7 +15,8 @@ export function initialize({
         try {
             const streamTitle = req.body.title;
             const streamDescription = req.body.description;
-            await createNewStream(dataStore, streamTitle, streamDescription);
+            const streamThumbnail = req.body.thumbnail;
+            await createNewStream(dataStore, streamTitle, streamDescription, streamThumbnail);
             res.sendStatus(200);
         } catch (error) {
             if(error instanceof Error) {
