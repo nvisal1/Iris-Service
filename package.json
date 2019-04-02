@@ -19,6 +19,7 @@
     "@types/dotenv": "^6.1.0",
     "@types/express": "^4.16.1",
     "@types/uuid": "^3.4.4",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "couchbase": "^2.6.2",
@@ -28,7 +29,14 @@
     "gulp-nodemon": "^2.4.2",
     "gulp-typescript": "^5.0.0",
     "gulp-watch": "^5.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.1.13",
     "typescript": "^3.2.4",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "@types/jsonwebtoken": "^8.3.2",
+    "@types/mongodb": "^3.1.22"
   }
 }
