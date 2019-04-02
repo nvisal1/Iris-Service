@@ -22,7 +22,7 @@ export async function login(
                 const token = jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + (60 * 60),
                     user: authUser
-                  }, 'iris_secret');
+                  }, process.env.KEY);
                 return token;
             }
         }
@@ -51,7 +51,7 @@ export async function registerUser(params: {
             const token = jwt.sign({
                 exp: Math.floor(Date.now() / 1000) + (60 * 60),
                 user: authUser
-                }, 'iris_secret');
+                }, process.env.KEY);
             return token;
         }
     } catch (error) {

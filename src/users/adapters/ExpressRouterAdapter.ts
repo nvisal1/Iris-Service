@@ -3,7 +3,7 @@ import {
     Request,
     Response,
 } from 'express';
-import { login } from '../Interactor';
+import { login, registerUser } from '../Interactor';
 import { mapErrorToResponseData } from '../../errors';
 
 export function buildPublicRouter(): Router {
@@ -44,7 +44,8 @@ async function register(
     try {
         const username = req.body.user.username;
         const password = req.body.user.password;
-        const token = await login(username, password);
+        const email = req.body.user.email;
+        const token = await registerUser({username, email, password});
         res.status(200).json({token});
     } catch (error) {
         if(error instanceof Error) {
