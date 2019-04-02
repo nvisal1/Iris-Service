@@ -8,22 +8,18 @@ export class DependencyContainer {
         Injectable<any> | Class<any>
     > = new Map();
 
-
     public initialize(): void {
-        let counter = 0
-        console.log(this.container);
         this.container.forEach((val, key) => {
-            // console.log(counter);
-            // counter ++;
-            // console.log('val',val);
-            // console.log('key',key);
-            let instance;
-            try {
-                instance = (<Injectable<any>>val).getInstance();
-            } catch(error) {
-                instance = new (<Class<any>>val)();
+            if (typeof(val) === 'function') {
+                let instance;
+                if (key )
+                try {
+                    instance = (<Injectable<any>><unknown>val).getInstance();
+                } catch(error) {
+                    instance = new (<Class<any>>val)();
+                }
+                this.register(key, instance);
             }
-            this.register(key, instance);
         });
     }
 

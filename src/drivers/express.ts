@@ -62,8 +62,8 @@ export class Express {
     }
 
     attachPublicRoutes(app: express.Express) {
-     // app.use(Streams.publicExpressRouter);
-      // app.use(Users.publicExpressRouter);
+     app.use(Streams.publicExpressRouter);
+     app.use(Users.publicExpressRouter);
     }
 
     attachPrivateRoutes(app: express.Express) {
@@ -73,7 +73,7 @@ export class Express {
           res.status(401).send('Invalid Access Token');
         }
       });
-      // app.use(Streams.privateExpressRouter);
+      app.use(Streams.privateExpressRouter);
     }
 
     startServer(app: express.Express) {

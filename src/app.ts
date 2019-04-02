@@ -15,16 +15,15 @@ dotenv.config();
 async function startApp(): Promise<void> {
     await Mongo.build(process.env.DB_URI);
     initModules();
-    await Express.build();
+    Express.build();
 }
 
 /**
  * Initializes all Modules for the application
  */
 function initModules() {
-    Users.adapter;
+    Users.initialize();
     Streams.initialize();
-    // Users.initialize();
 }
 
 console.log('start app');
