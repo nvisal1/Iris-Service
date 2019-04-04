@@ -4,7 +4,7 @@ import {
     Response,
 } from 'express';
 import { login, registerUser } from '../Interactor';
-import { mapErrorToResponseData } from '../../errors';
+import { mapErrorToResponseData, ResourceError } from '../../errors';
 
 export function buildPublicRouter(): Router {
     const router = Router();
@@ -23,17 +23,13 @@ async function signIn(
     res: Response,
 ): Promise<void> {
     try {
-        const username = req.body.user.username;
-        const password = req.body.user.password;
+        const username = req.body.username;
+        const password = req.body.password;
         const token = await login(username, password);
         res.status(200).json({token});
     } catch (error) {
-        if(error instanceof Error) {
-            const response = mapErrorToResponseData(error);
-            res.status(response.code).json({ message: response.message });
-        } else {
-            res.sendStatus(500);
-        }
+        const response = mapErrorToResponseData(error);
+        res.status(response.code).json({ message: response.message });
     }
 }
 
@@ -42,9 +38,9 @@ async function register(
     res: Response,
 ): Promise<void> {
     try {
-        const username = req.body.user.username;
-        const password = req.body.user.password;
-        const email = req.body.user.email;
+        const username = req.body.username;
+        const password = req.body.password;
+        const email = req.body.email;
         const token = await registerUser({username, email, password});
         res.status(200).json({token});
     } catch (error) {

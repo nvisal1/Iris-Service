@@ -2,7 +2,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { Users as Module } from '.';
 import { UserDataStore } from "./interfaces/UserDataStore";
-import { ServiceError, ServiceErrorReason } from "../errors";
+import { ServiceError, ServiceErrorReason, ResourceError, ResourceErrorReason } from "../errors";
 
 namespace Drivers {
     export const dataStore = () =>
@@ -13,22 +13,19 @@ export async function login(
     username: string,
     password: string,
 ): Promise<string> {
-    try {
-        const user = await Drivers.dataStore().findUserByUsername(username);
-        if (user) {
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
-                const { password, ...authUser } = user;
-                const token = jwt.sign({
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60),
-                    user: authUser
-                  }, process.env.KEY);
-                return token;
-            }
+    const user = await Drivers.dataStore().findUserByUsername(username);
+    if (user) {
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+            const { password, ...authUser } = user;
+            const token = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60),
+                user: authUser
+                }, process.env.KEY);
+            return token;
         }
-    } catch (error) {
-        throw new ServiceError(ServiceErrorReason.INTERNAL);
     }
+    throw new ResourceError('Invalid Access', ResourceErrorReason.INVALID_ACCESS);
 }
 
 
