@@ -1,5 +1,5 @@
 import { Mongo } from '../../drivers/mongo';
-import { Db } from 'mongodb';
+import { Db, ObjectId } from 'mongodb';
 import { StreamDataStore } from '../interfaces/StreamDataStore';
 import { Stream } from '../../shared/types/stream';
 import * as uuid from 'uuid';
@@ -29,8 +29,9 @@ export class MongoStreamDataStore implements StreamDataStore {
         const stream = await this.db
             .collection(MONGO_COLLECTIONS.STREAMS)
             .findOne({
-                _id: id,
+                _id: new ObjectId(id),
             });
+        console.log(stream);
         return stream;
     }
 
@@ -54,11 +55,16 @@ export class MongoStreamDataStore implements StreamDataStore {
     }
 
     async editStream(id: string, modifications: WriteableStream): Promise<void> {
+        console.log(modifications)
         await this.db
             .collection(MONGO_COLLECTIONS.STREAMS)
             .updateOne(
-                { _id: id },
-                { $set: { modifications } },
+                { _id: new ObjectId(id) },
+                { $set: { 
+                    title: modifications.title,
+                    description: modifications.description,
+                    thumbnail: modifications.thumbnail,
+                } },
             );
     }
 
