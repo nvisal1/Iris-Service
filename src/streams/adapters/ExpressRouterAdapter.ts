@@ -104,7 +104,7 @@ async function removeStream(
     try {
         const streamId = req.params.streamId;
         const result = await deleteStream(streamId);
-        res.status(200).json({ value: result });
+        res.status(200).json({ id: streamId });
     } catch (error) {
         if(error instanceof Error) {
             const response = mapErrorToResponseData(error);

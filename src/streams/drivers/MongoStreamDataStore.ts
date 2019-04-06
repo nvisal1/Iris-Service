@@ -72,7 +72,7 @@ export class MongoStreamDataStore implements StreamDataStore {
         await this.db
             .collection(MONGO_COLLECTIONS.STREAMS)
             .deleteOne({
-                _id: id,
+                _id: new ObjectId(id),
             });
     }
 }

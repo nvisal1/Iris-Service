@@ -51,7 +51,6 @@ export async function updateStream(
         description: streamDescription,
         thumbnail: streamThumbnail,
     }
-    console.log(updates);
     await Drivers.dataStore().editStream(id, updates);
    
 }
