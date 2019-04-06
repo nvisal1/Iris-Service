@@ -34,6 +34,10 @@ export async function fetchAllStreams(): Promise<Stream[]> {
     return await Drivers.dataStore().fetchStreams();
 }
 
+export async function searchStreams(query: string): Promise<Stream[]> {
+    return await Drivers.dataStore().searchStreams(query);
+}
+
 export async function fetchOneStream(
     streamId: string
 ): Promise<Stream> {
@@ -52,7 +56,6 @@ export async function updateStream(
         thumbnail: streamThumbnail,
     }
     await Drivers.dataStore().editStream(id, updates);
-   
 }
 
 export async function deleteStream(

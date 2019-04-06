@@ -43,6 +43,17 @@ export class MongoStreamDataStore implements StreamDataStore {
         return streams;
     }
 
+
+    async searchStreams(query: string): Promise<Stream[]> {
+        const streams = await this.db
+            .collection(MONGO_COLLECTIONS.STREAMS)
+            .find({
+                title: { $regex: query  }
+            })
+            .toArray();
+        return streams;
+    }
+
     async createStream(writeable: WriteableStream): Promise<void> {
         const streamKey = uuid.v4()
         const stream = {

@@ -3,7 +3,14 @@ import {
     Request,
     Response,
 } from 'express';
-import { fetchOneStream, fetchAllStreams, createNewStream, updateStream, deleteStream } from '../Interactor';
+import { 
+    fetchOneStream,
+    fetchAllStreams,
+    createNewStream,
+    updateStream,
+    deleteStream,
+    searchStreams
+} from '../Interactor';
 import { mapErrorToResponseData } from '../../errors';
 
 export function buildPublicRouter(): Router {
@@ -44,8 +51,14 @@ async function fetchStreams(
     res: Response,
 ): Promise<void> {
     try {
-        const result = await fetchAllStreams();
-        res.status(200).json(result);
+        let results;
+        if (req.query.text) {
+            results = await searchStreams(req.query.text);
+            console.log(results);
+        } else {
+            results = await fetchAllStreams();
+        }
+        res.status(200).json(results);
     } catch (error) {
         if(error instanceof Error) {
             const response = mapErrorToResponseData(error);
