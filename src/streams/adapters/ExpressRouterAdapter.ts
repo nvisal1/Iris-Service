@@ -9,7 +9,8 @@ import {
     createNewStream,
     updateStream,
     deleteStream,
-    searchStreams
+    searchStreams,
+    getUserStreams
 } from '../Interactor';
 import { mapErrorToResponseData } from '../../errors';
 
@@ -23,6 +24,7 @@ export function buildPublicRouter(): Router {
 export function buildPrivateRouter(): Router {
     const router = Router();
     router.post('/streams', createStream);
+    router.get('/user/:userId/streams', fetchUserStreams);
     router.patch('/streams/:streamId', editStream);
     router.delete('/streams/:streamId', removeStream);
     return router;
@@ -54,10 +56,27 @@ async function fetchStreams(
         let results;
         if (req.query.text) {
             results = await searchStreams(req.query.text);
-            console.log(results);
         } else {
             results = await fetchAllStreams();
         }
+        res.status(200).json(results);
+    } catch (error) {
+        if(error instanceof Error) {
+            const response = mapErrorToResponseData(error);
+            res.status(response.code).json({ message: response.message });
+        } else {
+            res.sendStatus(500);
+        }
+    }
+}
+
+async function fetchUserStreams(
+    req: Request,
+    res: Response
+): Promise<void> {
+    try {
+        const userId = req.params.userId;
+        const results = await getUserStreams(userId);
         res.status(200).json(results);
     } catch (error) {
         if(error instanceof Error) {

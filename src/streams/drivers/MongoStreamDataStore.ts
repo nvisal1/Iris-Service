@@ -31,7 +31,7 @@ export class MongoStreamDataStore implements StreamDataStore {
             .findOne({
                 _id: new ObjectId(id),
             });
-        console.log(stream);
+
         return stream;
     }
 
@@ -40,6 +40,16 @@ export class MongoStreamDataStore implements StreamDataStore {
             .collection(MONGO_COLLECTIONS.STREAMS)
             .find()
             .toArray()
+        return streams;
+    }
+
+    async fetchUserStreams(userId: string): Promise<Stream[]> {
+        const streams = await this.db 
+            .collection(MONGO_COLLECTIONS.STREAMS)
+            .find({
+                owner: userId
+            })
+            .toArray();
         return streams;
     }
 
@@ -66,7 +76,6 @@ export class MongoStreamDataStore implements StreamDataStore {
     }
 
     async editStream(id: string, modifications: WriteableStream): Promise<void> {
-        console.log(modifications)
         await this.db
             .collection(MONGO_COLLECTIONS.STREAMS)
             .updateOne(

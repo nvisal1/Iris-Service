@@ -45,6 +45,10 @@ export async function fetchOneStream(
     return await Drivers.dataStore().fetchStream(streamId);
 }
 
+export async function getUserStreams(userId: string): Promise<Stream[]> {
+    return await Drivers.dataStore().fetchUserStreams(userId);
+}
+
 export async function updateStream(
     id: string,
     streamTitle: string,

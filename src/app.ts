@@ -26,6 +26,5 @@ function initModules() {
     Streams.initialize();
 }
 
-console.log('start app');
 startApp();
   

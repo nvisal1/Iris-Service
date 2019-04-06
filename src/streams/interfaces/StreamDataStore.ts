@@ -13,4 +13,5 @@ export abstract class StreamDataStore {
     ): Promise<void>;
     abstract removeStream(id: string): Promise<void>;
     abstract searchStreams(query: string): Promise<Stream[]>;
+    abstract fetchUserStreams(userId: string): Promise<Stream[]>;
 }
