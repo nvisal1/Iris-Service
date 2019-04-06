@@ -74,10 +74,11 @@ async function createStream(
     res: Response,
 ): Promise<void> {
     try {
+        const streamOwner = req.body.owner;
         const streamTitle = req.body.title;
         const streamDescription = req.body.description;
         const streamThumbnail = req.body.thumbnail;
-        await createNewStream(streamTitle, streamDescription, streamThumbnail);
+        await createNewStream(streamOwner, streamTitle, streamDescription, streamThumbnail);
         res.sendStatus(200);
     } catch (error) {
         if(error instanceof Error) {

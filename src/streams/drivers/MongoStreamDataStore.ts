@@ -54,7 +54,7 @@ export class MongoStreamDataStore implements StreamDataStore {
         return streams;
     }
 
-    async createStream(writeable: WriteableStream): Promise<void> {
+    async createStream(writeable: object): Promise<void> {
         const streamKey = uuid.v4()
         const stream = {
             ...writeable,

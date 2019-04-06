@@ -6,7 +6,7 @@ export abstract class StreamDataStore {
     [x: string]: any;
     abstract fetchStream(id: string): Promise<Stream>;
     abstract fetchStreams(): Promise<Stream[]>;
-    abstract createStream(writeable: WriteableStream): Promise<void>;
+    abstract createStream(writeable: object): Promise<void>;
     abstract editStream(
         id: string,
         modifications: WriteableStream

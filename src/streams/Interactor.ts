@@ -22,11 +22,12 @@ namespace Drivers {
  * @returns { Promise<void> }
  */
 export async function createNewStream(
+    owner: string,
     title: string,
     description: string,
     thumbnail: string,
 ): Promise<void> {  
-    const stream: WriteableStream = { title, description, thumbnail };
+    const stream = { owner, title, description, thumbnail };
     await Drivers.dataStore().createStream(stream);
 }   
 
