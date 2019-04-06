@@ -2,6 +2,7 @@ import { Streams as Module } from '.';
 import { StreamDataStore } from './interfaces/StreamDataStore';
 import { Stream } from '../shared/types/stream';
 import { WriteableStream } from '../shared/types/WriteableStream';
+import { ResourceError, ResourceErrorReason } from '../errors';
 
 namespace Drivers {
     export const dataStore = () =>
@@ -28,7 +29,13 @@ export async function createNewStream(
     thumbnail: string,
 ): Promise<void> {  
     const stream = { owner, title, description, thumbnail };
-    await Drivers.dataStore().createStream(stream);
+    const userStreams = await Drivers.dataStore().fetchUserStreams(owner);
+    switch(userStreams.length) {
+        case 6: 
+            throw new ResourceError('User has max number of streams', ResourceErrorReason.BAD_REQUEST)
+        default: 
+            return await Drivers.dataStore().createStream(stream);
+    } 
 }   
 
 export async function fetchAllStreams(): Promise<Stream[]> {
