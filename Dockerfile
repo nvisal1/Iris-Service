@@ -3,6 +3,8 @@ FROM node:8 as builder
 
 ARG UNIT_TEST=0
 
+ENV PORT=3001
+
 RUN mkdir -p /opt/app
 
 # check every 30s to ensure this service returns HTTP 200
@@ -11,6 +13,9 @@ RUN mkdir -p /opt/app
 # install dependencies in a different location for easier app bind mounting for local development
 WORKDIR /opt
 COPY package.json package-lock.json* ./
+RUN apt-get update
+RUN apt-get install -y build-essential
+RUN apt-get install -y python
 RUN npm install && npm cache clean --force
 ENV PATH /opt/node_modules/.bin:$PATH
 
@@ -30,14 +35,13 @@ ENV PATH /opt/node_modules/.bin:$PATH
 WORKDIR /opt
 RUN if [ "$UNIT_TEST" = "1" ] ; then npm test ; else echo Not running unit tests ; fi
 
-FROM node:8-alpine
+FROM node:8-slim
 # Defaults the node environment to production, however compose will override this to use development
 # when working locally
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 # Default to port 80 for node, and 5858 or 9229 for debug
-ARG PORT=80
-ENV PORT $PORT
+
 EXPOSE $PORT 5858 9229
 
 WORKDIR /opt
