@@ -33,7 +33,6 @@ ENV PATH /opt/node_modules/.bin:$PATH
 
 # Swtich working dir to opt to use node_modules for testing
 WORKDIR /opt
-RUN if [ "$UNIT_TEST" = "1" ] ; then npm test ; else echo Not running unit tests ; fi
 
 FROM node:8-alpine
 # Defaults the node environment to production, however compose will override this to use development
@@ -55,4 +54,4 @@ RUN npm uninstall --only=dev
 WORKDIR /opt/app/dist
 # Run the container! Using the node command instead of npm allows for better passing of signals
 # and graceful shutdown. Further examination would be useful here
-CMD [ "node", "app.js" ] 
+CMD [ "npm", "start" ] 
