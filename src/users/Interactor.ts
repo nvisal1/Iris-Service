@@ -21,7 +21,7 @@ export async function login(
             const token = jwt.sign({
                 exp: Math.floor(Date.now() / 1000) + (60 * 60),
                 user: authUser
-                }, process.env.KEY);
+                }, 'secret');
             return token;
         }
     }
