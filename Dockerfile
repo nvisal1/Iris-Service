@@ -3,11 +3,6 @@ FROM node:8 as builder
 
 ARG UNIT_TEST=0
 
-ARG CLARK_DB_URI_TEST
-ARG KEY=TEST_SECRET
-ARG ISSUER=TEST_ISSUER
-ARG SERVICE_KEY=THIS_IS_A_SERVICE_KEY
-
 RUN mkdir -p /opt/app
 
 # check every 30s to ensure this service returns HTTP 200
